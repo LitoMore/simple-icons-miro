@@ -103,12 +103,12 @@ div[data-test-id="virtuoso-scroller"]::-webkit-scrollbar {
   --fallback-color-text: #000;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --fallback-color-bg: #2c2c2c;
     --fallback-color-text: #fff;
   }
-}
+} */
 
 /* Dark mode */
 body {
