@@ -54,7 +54,7 @@ const Icons = ({
 	const containerWidth = windowWidth - rootSpace * 2;
 	const iconsPerRow = Math.floor(containerWidth / siIconBoxWidth);
 	const gap =
-		(containerWidth - iconsPerRow * siIconBoxWidth) / (iconsPerRow - 1);
+		(containerWidth - iconsPerRow * siIconBoxWidth) / (iconsPerRow - 1) - 1;
 
 	return (
 		<VirtuosoGrid
