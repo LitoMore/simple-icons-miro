@@ -5,7 +5,8 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "deploy": "gh-pages -d dist --cname simple-icons-miro.litomore.me"
   },
   "dependencies": {
     "fast-fuzzy": "^1.12.0",
@@ -22,6 +23,7 @@
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
     "@vitejs/plugin-react": "^2.2.0",
+    "gh-pages": "^6.1.1",
     "typescript": "4.9.5",
     "vite": "3.0.3",
     "xo": "^0.58.0"
