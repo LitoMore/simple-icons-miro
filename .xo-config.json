@@ -1,0 +1,4 @@
+{
+  "prettier": true,
+  "ignores": ["global.d.ts"]
+}

@@ -1,47 +1,48 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import {createRoot} from 'react-dom/client';
+import Search from './components/search.js';
+import Icons from './components/icons.js';
+import Loading from './components/loading.js';
+import type {IconData} from './types.js';
+import {loadLatestVersion, loadJson, titleToSlug} from './utils.js';
+import './assets/style.css';
 
-import '../src/assets/style.css';
+const App = () => {
+	const [searchString, setSearchString] = useState('');
+	const [icons, setIcons] = useState<IconData[]>([]);
+	const [version, setVersion] = useState<string>('latest');
 
-async function addSticky() {
-  const stickyNote = await miro.board.createStickyNote({
-    content: 'Hello, World!',
-  });
+	useEffect(() => {
+		(async () => {
+			const version = await loadLatestVersion();
+			const json = await loadJson(version);
+			const icons = json.icons.map((icon) => ({
+				...icon,
+				slug: icon.slug || titleToSlug(icon.title),
+			}));
+			setIcons(icons);
+			setVersion(version);
+		})();
+	}, []);
 
-  await miro.board.viewport.zoomTo(stickyNote);
-}
-
-const App: React.FC = () => {
-  React.useEffect(() => {
-    addSticky();
-  }, []);
-
-  return (
-    <div className="grid wrapper">
-      <div className="cs1 ce12">
-        <img src="/src/assets/congratulations.png" alt="" />
-      </div>
-      <div className="cs1 ce12">
-        <h1>Congratulations!</h1>
-        <p>You've just created your first Miro app!</p>
-        <p>
-          To explore more and build your own app, see the Miro Developer
-          Platform documentation.
-        </p>
-      </div>
-      <div className="cs1 ce12">
-        <a
-          className="button button-primary"
-          target="_blank"
-          href="https://developers.miro.com"
-        >
-          Read the documentation
-        </a>
-      </div>
-    </div>
-  );
+	return (
+		<div className="grid">
+			<div className="cs1 ce12">
+				<Search
+					onChange={(value = '') => {
+						setSearchString(value);
+					}}
+				/>
+				{icons.length > 0 ? (
+					<Icons searchString={searchString} icons={icons} version={version} />
+				) : (
+					<Loading />
+				)}
+			</div>
+		</div>
+	);
 };
 
-const container = document.getElementById('root');
-const root = createRoot(container);
+const container = document.querySelector('#root');
+const root = createRoot(container as HTMLDivElement);
 root.render(<App />);
