@@ -17,8 +17,7 @@ const Icon = ({
 
 	return (
 		<div
-			className={`miro-draggable si-icon ${className ?? ''}`}
-			draggable
+			className={`si-icon ${className ?? ''}`}
 			style={{
 				border: `${isWhite ? 1 : 2}px solid ${
 					isWhite
