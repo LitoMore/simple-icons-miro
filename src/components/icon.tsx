@@ -3,12 +3,10 @@ import type {IconData} from '../types.js';
 // Import {loadSvg} from '../utils.js';
 
 const Icon = ({
-	className,
 	icon,
 	luminance,
 	version,
 }: {
-	className?: string;
 	icon: IconData;
 	luminance: number;
 	version: string;
@@ -16,8 +14,12 @@ const Icon = ({
 	const isWhite = icon.hex === 'FFFFFF';
 
 	return (
-		<div
-			className={`si-icon ${className ?? ''}`}
+		<button
+			className={'si-icon miro-draggable draggable-item'}
+			draggable={false}
+			data-slug={icon.slug}
+			data-title={icon.title}
+			tabIndex={0}
 			style={{
 				border: `${isWhite ? 1 : 2}px solid ${
 					isWhite
@@ -25,17 +27,26 @@ const Icon = ({
 						: `#${icon.hex}`
 				}`,
 				borderBottomWidth: isWhite ? 1 : 0,
+				zIndex: 1,
 			}}
 			onClick={async () => {
 				const viewport = await miro.board.viewport.get();
-				await miro.board.createImage({
-					title: 'This is an image',
+				const position = await miro.board.findEmptySpace({
+					x: viewport.x + viewport.width / 2,
+					y: viewport.y + viewport.height / 2,
+					width: 24,
+					height: 24,
+				});
+				const image = await miro.board.createImage({
+					title: icon.title,
+					alt: icon.title,
 					url: `https://cdn.simpleicons.org/${icon.slug}`,
 					width: 24,
 					rotation: 0,
-					x: viewport.x + viewport.width / 2,
-					y: viewport.y + viewport.height / 2,
+					x: position.x,
+					y: position.y,
 				});
+				await miro.board.viewport.zoomTo(image);
 			}}
 		>
 			<div
@@ -57,7 +68,7 @@ const Icon = ({
 			>
 				#{icon.hex}
 			</div>
-		</div>
+		</button>
 	);
 };
 

@@ -6,11 +6,12 @@ import {VirtuosoGrid} from 'react-virtuoso';
 import type {IconData} from '../types.js';
 import Icon from './icon.js';
 
-const ListContainer = styled.div<{gap: number}>`
+const ListContainer = styled.div<{$gap: number}>`
 	display: flex;
 	flex-wrap: wrap;
-	gap: ${({gap}) => gap}px;
+	gap: ${({$gap}) => $gap}px;
 	margin: 10px 0 0 0;
+	padding-bottom: 30px !important;
 `;
 
 const Icons = ({
@@ -58,12 +59,13 @@ const Icons = ({
 
 	return (
 		<VirtuosoGrid
-			style={{height: window.innerHeight}}
+			style={{height: window.innerHeight - 46}}
+			tabIndex={-1}
 			totalCount={searchResult.length}
 			overscan={100}
 			components={{
 				List: forwardRef(({children, style}, reference) => (
-					<ListContainer ref={reference} style={style} gap={gap}>
+					<ListContainer tabIndex={-1} ref={reference} style={style} $gap={gap}>
 						{children}
 					</ListContainer>
 				)),
